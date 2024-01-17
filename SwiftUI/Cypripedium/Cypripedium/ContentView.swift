@@ -7,28 +7,29 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image("cypripedium")
-                .roundImage(cornerRadius: 12)
-            Text("Cypripedium")
-                .font(.title)
-                .fontWeight(.bold)
-        }
-        .padding()
-    }
+func swapValues<T>(_ x: inout T, _ y: inout T) {
+    let tmp: T
+    
+    tmp = x
+    x = y
+    y = tmp
 }
 
-extension Image {
-    func roundImage(cornerRadius: CGFloat) -> some View {
-        self
-            .resizable()
-            .scaledToFit()
-            .clipShape(
-                RoundedRectangle(cornerRadius: cornerRadius)
-            )
-            .shadow(color: .black, radius: 10, x: 0, y: 3)
+struct ContentView: View {
+    @State private var x = 4
+    @State private var y = 5
+    
+    var body: some View {
+        VStack {
+            BoxView("\(x)")
+            BoxView("\(y)")
+            
+            Button("Swap") {
+                withAnimation {
+                    swapValues(&x, &y)
+                }
+            }
+        }
     }
 }
 
